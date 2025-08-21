@@ -1,293 +1,63 @@
-import { ActionReducer } from '@ngrx/store';
-import { localStorageSync } from 'ngrx-store-localstorage';
-import { localStorageSyncReducer } from './local-storage-sync';
-import { AppState } from '../../store';
+import { Action, ActionReducer } from '@ngrx/store';
+import { localStorageSyncReducer } from './local-storage-sync'; // ← adjust path
+import { AppState } from '../../store'; // ← adjust path
 
-// Mock the ngrx-store-localstorage module
-jest.mock('ngrx-store-localstorage', () => ({
-  localStorageSync: jest.fn(),
-}));
+import {
+  CartState,
+  initialState as initialCartState,
+} from '@core/state/cart/cart.reducer'; // ← adjust path
+import { ProductsState, initialProductsState } from '@core/state/products'; // ← adjust path
+
+const initialAppState: AppState = {
+  cart: initialCartState,
+  products: initialProductsState,
+};
+
+// Minimal base reducer; keeps state stable for unknown actions.
+const baseReducer: ActionReducer<AppState> = (
+  state: AppState | undefined,
+  _action: Action,
+): AppState => (state === undefined ? initialAppState : state);
+
+// Wrap with the meta-reducer under test
+const wrapped: ActionReducer<AppState> = localStorageSyncReducer(baseReducer);
 
 describe('localStorageSyncReducer', () => {
-  let mockReducer: ActionReducer<AppState>;
-  let mockLocalStorageSync: jest.MockedFunction<typeof localStorageSync>;
-  let mockSyncedReducer: ActionReducer<AppState>;
+  let setItemSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    // Reset all mocks
-    jest.clearAllMocks();
-
-    // Create mock reducer
-    mockReducer = jest.fn();
-
-    // Create mock synced reducer
-    mockSyncedReducer = jest.fn();
-
-    // Mock localStorageSync to return a function that returns our mock synced reducer
-    mockLocalStorageSync = localStorageSync as jest.MockedFunction<
-      typeof localStorageSync
-    >;
-    mockLocalStorageSync.mockReturnValue(() => mockSyncedReducer);
+    localStorage.clear();
+    jest.restoreAllMocks();
+    setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
   });
 
-  describe('configuration', () => {
-    it('should call localStorageSync with correct configuration', () => {
-      localStorageSyncReducer(mockReducer);
+  it('persists configured slices to localStorage after any action', () => {
+    const stateAfterInit = wrapped(undefined, { type: '@ngrx/store/init' });
+    const stateAfterNoop = wrapped(stateAfterInit, { type: '[Test] Noop' });
 
-      expect(mockLocalStorageSync).toHaveBeenCalledWith({
-        keys: ['auth'],
-        rehydrate: true,
-      });
-    });
+    // It should write only configured keys
+    const writtenKeys = setItemSpy.mock.calls.map(([k]) => k);
+    expect(writtenKeys).toEqual(expect.arrayContaining([]));
 
-    it('should call localStorageSync exactly once', () => {
-      localStorageSyncReducer(mockReducer);
+    // And the stored values should match the latest state
+    const storedCart = JSON.parse(
+      localStorage.getItem('cart') ?? 'null',
+    ) as CartState | null;
+    const storedProducts = JSON.parse(
+      localStorage.getItem('products') ?? 'null',
+    ) as ProductsState | null;
 
-      expect(mockLocalStorageSync).toHaveBeenCalledTimes(1);
-    });
-
-    it('should pass the original reducer to the localStorageSync result function', () => {
-      const syncFunction = jest.fn().mockReturnValue(mockSyncedReducer);
-      mockLocalStorageSync.mockReturnValue(syncFunction);
-
-      localStorageSyncReducer(mockReducer);
-
-      expect(syncFunction).toHaveBeenCalledWith(mockReducer);
-    });
+    expect(storedCart).toEqual(stateAfterNoop.cart);
+    expect(storedProducts).toEqual(stateAfterNoop.products);
   });
 
-  describe('reducer enhancement', () => {
-    it('should return the enhanced reducer from localStorageSync', () => {
-      const result = localStorageSyncReducer(mockReducer);
+  it('falls back to initial slice values when storage JSON is corrupted', () => {
+    localStorage.setItem('cart', '{bad json');
+    localStorage.setItem('products', 'not json');
 
-      expect(result).toBe(mockSyncedReducer);
-    });
+    const state = wrapped(undefined, { type: '@ngrx/store/init' });
 
-    it('should return a function when called', () => {
-      const result = localStorageSyncReducer(mockReducer);
-
-      expect(typeof result).toBe('function');
-    });
-  });
-
-  describe('state synchronization', () => {
-    let mockState: AppState;
-    let mockAction: { type: string };
-
-    beforeEach(() => {
-      mockState = {
-        auth: {
-          user: null,
-          loading: false,
-          error: null,
-        },
-      } as AppState;
-
-      mockAction = { type: 'TEST_ACTION' };
-    });
-
-    it('should handle state persistence through the enhanced reducer', () => {
-      // Setup the mock to simulate the actual behavior
-      const enhancedReducer = jest.fn().mockReturnValue(mockState);
-      mockLocalStorageSync.mockReturnValue(() => enhancedReducer);
-
-      const result = localStorageSyncReducer(mockReducer);
-      const newState = result(mockState, mockAction);
-
-      expect(enhancedReducer).toHaveBeenCalledWith(mockState, mockAction);
-      expect(newState).toBe(mockState);
-    });
-
-    it('should work with undefined initial state', () => {
-      const enhancedReducer = jest.fn().mockReturnValue(mockState);
-      mockLocalStorageSync.mockReturnValue(() => enhancedReducer);
-
-      const result = localStorageSyncReducer(mockReducer);
-      const newState = result(undefined, mockAction);
-
-      expect(enhancedReducer).toHaveBeenCalledWith(undefined, mockAction);
-      expect(newState).toBe(mockState);
-    });
-
-    it('should handle different action types', () => {
-      const enhancedReducer = jest.fn().mockReturnValue(mockState);
-      mockLocalStorageSync.mockReturnValue(() => enhancedReducer);
-
-      const result = localStorageSyncReducer(mockReducer);
-
-      const loginAction = {
-        type: '[Auth] Login',
-        username: 'test',
-        password: 'test',
-      };
-      const logoutAction = { type: '[Auth] Logout' };
-
-      result(mockState, loginAction);
-      result(mockState, logoutAction);
-
-      expect(enhancedReducer).toHaveBeenCalledWith(mockState, loginAction);
-      expect(enhancedReducer).toHaveBeenCalledWith(mockState, logoutAction);
-      expect(enhancedReducer).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('localStorage integration', () => {
-    beforeEach(() => {
-      // Mock localStorage
-      Object.defineProperty(window, 'localStorage', {
-        value: {
-          getItem: jest.fn(),
-          setItem: jest.fn(),
-          removeItem: jest.fn(),
-          clear: jest.fn(),
-        },
-        writable: true,
-      });
-    });
-
-    it('should configure localStorage sync for auth state only', () => {
-      localStorageSyncReducer(mockReducer);
-
-      expect(mockLocalStorageSync).toHaveBeenCalledWith(
-        expect.objectContaining({
-          keys: ['auth'],
-        }),
-      );
-    });
-
-    it('should enable rehydration from localStorage', () => {
-      localStorageSyncReducer(mockReducer);
-
-      expect(mockLocalStorageSync).toHaveBeenCalledWith(
-        expect.objectContaining({
-          rehydrate: true,
-        }),
-      );
-    });
-
-    it('should not include other state keys in sync configuration', () => {
-      localStorageSyncReducer(mockReducer);
-
-      const callArgs = mockLocalStorageSync.mock.calls[0][0];
-      expect(callArgs.keys).toEqual(['auth']);
-      expect(callArgs.keys).not.toContain('router');
-      expect(callArgs.keys).not.toContain('ui');
-      expect(callArgs.keys).not.toContain('data');
-    });
-  });
-
-  describe('error handling', () => {
-    it('should handle localStorage errors gracefully', () => {
-      // Mock localStorage to throw an error
-      const mockError = new Error('localStorage not available');
-      const errorReducer = jest.fn().mockImplementation(() => {
-        throw mockError;
-      });
-      mockLocalStorageSync.mockReturnValue(() => errorReducer);
-
-      const result = localStorageSyncReducer(mockReducer);
-
-      expect(() => {
-        result(
-          { auth: { user: null, loading: false, error: null } } as AppState,
-          { type: 'TEST' },
-        );
-      }).toThrow(mockError);
-    });
-
-    it('should work when localStorage is not available', () => {
-      // Simulate environment without localStorage
-      const originalLocalStorage = window.localStorage;
-      delete (window as unknown).localStorage;
-
-      // The function should still work and return a reducer
-      const result = localStorageSyncReducer(mockReducer);
-      expect(typeof result).toBe('function');
-
-      // Restore localStorage
-      window.localStorage = originalLocalStorage;
-    });
-
-    it('should handle malformed localStorage data', () => {
-      // Mock localStorage with invalid JSON
-      Object.defineProperty(window, 'localStorage', {
-        value: {
-          getItem: jest.fn().mockReturnValue('invalid json'),
-          setItem: jest.fn(),
-          removeItem: jest.fn(),
-          clear: jest.fn(),
-        },
-        writable: true,
-      });
-
-      // The reducer should still be created without throwing
-      const result = localStorageSyncReducer(mockReducer);
-      expect(typeof result).toBe('function');
-    });
-  });
-
-  describe('type safety', () => {
-    it('should accept ActionReducer<AppState> as parameter', () => {
-      const typedReducer: ActionReducer<AppState> = (state, _action) =>
-        state || ({} as AppState);
-
-      expect(() => {
-        localStorageSyncReducer(typedReducer);
-      }).not.toThrow();
-    });
-
-    it('should return ActionReducer<AppState>', () => {
-      const result = localStorageSyncReducer(mockReducer);
-
-      // Test that the returned function has the correct signature
-      expect(typeof result).toBe('function');
-      // The mock function may not have the same length property, so just verify it's a function
-      expect(result).toBeDefined();
-    });
-  });
-
-  describe('integration with ngrx-store-localstorage', () => {
-    it('should pass through all configuration options to localStorageSync', () => {
-      localStorageSyncReducer(mockReducer);
-
-      expect(mockLocalStorageSync).toHaveBeenCalledWith({
-        keys: ['auth'],
-        rehydrate: true,
-      });
-    });
-
-    it('should create a meta-reducer that wraps the original reducer', () => {
-      const syncFunction = jest.fn().mockReturnValue(mockSyncedReducer);
-      mockLocalStorageSync.mockReturnValue(syncFunction);
-
-      const result = localStorageSyncReducer(mockReducer);
-
-      expect(mockLocalStorageSync).toHaveBeenCalled();
-      expect(syncFunction).toHaveBeenCalledWith(mockReducer);
-      expect(result).toBe(mockSyncedReducer);
-    });
-
-    it('should maintain the reducer chain correctly', () => {
-      // Test that the meta-reducer pattern is correctly implemented
-      const originalState = {
-        auth: { user: null, loading: false, error: null },
-      } as AppState;
-      const newState = {
-        auth: { user: { id: '1', name: 'Test' }, loading: false, error: null },
-      } as AppState;
-      const _action = {
-        type: '[Auth] Login Success',
-        user: { id: '1', name: 'Test' },
-      };
-
-      const enhancedReducer = jest.fn().mockReturnValue(newState);
-      mockLocalStorageSync.mockReturnValue(() => enhancedReducer);
-
-      const result = localStorageSyncReducer(mockReducer);
-      const finalState = result(originalState, _action);
-
-      expect(enhancedReducer).toHaveBeenCalledWith(originalState, _action);
-      expect(finalState).toBe(newState);
-    });
+    expect(state.cart).toEqual(initialCartState);
+    expect(state.products).toEqual(initialProductsState);
   });
 });

@@ -1,20 +1,19 @@
-// app.component.spec.ts
+// header.component.spec.ts
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
-
-import { App } from './app'; // adjust path if needed
+import { HeaderComponent } from './header.component';
 import { initialState as initialCartState } from '@core/state/cart/cart.reducer';
 import { initialProductsState } from '@core/state/products';
 
-describe('App', () => {
+describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [HeaderComponent],
       providers: [
         provideMockStore({
           initialState: {
-            cart: initialCartState,
+            cart: { ...initialCartState, totalItems: 3 },
             products: initialProductsState,
           },
         }),
@@ -23,15 +22,9 @@ describe('App', () => {
     }).compileComponents();
   });
 
-  it('should create', () => {
-    const fixture = TestBed.createComponent(App);
-    expect(fixture.componentInstance).toBeTruthy();
-  });
-
-  it('should have the expected title', () => {
-    const fixture = TestBed.createComponent(App);
-    expect((fixture.componentInstance as App)['title']).toBe(
-      'angular-starter-template',
-    );
+  it('exposes cartItemCount as a signal with current total', () => {
+    const fixture = TestBed.createComponent(HeaderComponent);
+    fixture.detectChanges();
+    expect(fixture.componentInstance.cartItemCount()).toBe(3);
   });
 });

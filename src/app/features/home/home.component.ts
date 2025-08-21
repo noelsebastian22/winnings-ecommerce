@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  // Inject dependencies using the new inject() function
   private router = inject(Router);
 
   navigateToProducts() {

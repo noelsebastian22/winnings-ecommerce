@@ -12,7 +12,6 @@ import {
 })
 export class ProductService extends ResourceService<Product> {
   constructor() {
-    // Use ResourceService with the path to the products JSON file
     super('products.json');
   }
 

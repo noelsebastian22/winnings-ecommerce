@@ -1,106 +1,63 @@
-import { ActionReducerMap } from '@ngrx/store';
-import { reducers } from './app.reducer';
+import { Action } from '@ngrx/store';
 import { AppState } from './app.state';
-import { authReducer } from '../features/auth/store/auth.reducer';
-import * as AuthActions from '../features/auth/store/auth.actions';
-import { initialAuthState } from '../features/auth/store/auth.state';
 
-describe('App Reducer', () => {
-  describe('reducers configuration', () => {
-    it('should be an ActionReducerMap', () => {
-      expect(reducers).toBeDefined();
-      expect(typeof reducers).toBe('object');
-    });
+import {
+  cartReducer,
+  initialState as initialCartState,
+  CartState,
+} from '@core/state/cart/cart.reducer';
 
-    it('should contain auth reducer', () => {
-      expect(reducers.auth).toBe(authReducer);
-    });
+import {
+  productsReducer,
+  initialProductsState,
+  ProductsState,
+} from '@core/state/products';
+import { reducers } from './app.reducer';
 
-    it('should have correct structure for AppState', () => {
-      const expectedKeys = ['auth'];
-      const actualKeys = Object.keys(reducers);
-
-      expect(actualKeys).toEqual(expectedKeys);
-    });
+describe('root reducers (ActionReducerMap<AppState>)', () => {
+  it('exposes expected slice keys', () => {
+    expect(Object.keys(reducers).sort()).toEqual(['cart', 'products']);
   });
 
-  describe('reducer composition', () => {
-    it('should combine feature reducers correctly', () => {
-      // Create a mock action that affects auth state
-      const loginAction = AuthActions.login({
-        username: 'test',
-        password: 'test',
-      });
-
-      // Apply the auth reducer directly
-      const authState = authReducer(initialAuthState, loginAction);
-
-      // Verify the reducer in the map produces the same result
-      const reducerResult = reducers.auth(initialAuthState, loginAction);
-
-      expect(reducerResult).toEqual(authState);
-    });
-
-    it('should maintain state tree structure', () => {
-      const mockState: AppState = {
-        auth: initialAuthState,
-      };
-
-      // Test that each reducer handles its slice correctly
-      const loginAction = AuthActions.login({
-        username: 'test',
-        password: 'test',
-      });
-      const newAuthState = reducers.auth(mockState.auth, loginAction);
-
-      expect(newAuthState).toBeDefined();
-      expect(newAuthState.loading).toBe(true);
-      expect(newAuthState.error).toBe(null);
-    });
+  it('maps slices to the correct reducer functions', () => {
+    expect(reducers.cart).toBe(cartReducer);
+    expect(reducers.products).toBe(productsReducer);
   });
 
-  describe('action routing', () => {
-    it('should route auth actions to auth reducer', () => {
-      const loginAction = AuthActions.login({
-        username: 'test',
-        password: 'test',
-      });
-      const loginSuccessAction = AuthActions.loginSuccess({
-        user: { id: '1', name: 'Test' },
-      });
-      const logoutAction = AuthActions.logout();
+  it('each slice reducer returns its initial state on @ngrx/store/init', () => {
+    const initAction: Action = { type: '@ngrx/store/init' };
 
-      // Test that auth reducer handles auth actions
-      expect(() => reducers.auth(initialAuthState, loginAction)).not.toThrow();
-      expect(() =>
-        reducers.auth(initialAuthState, loginSuccessAction),
-      ).not.toThrow();
-      expect(() => reducers.auth(initialAuthState, logoutAction)).not.toThrow();
-    });
+    const cartInit = reducers.cart(
+      undefined as unknown as CartState,
+      initAction,
+    );
+    const productsInit = reducers.products(
+      undefined as unknown as ProductsState,
+      initAction,
+    );
 
-    it('should handle unknown actions gracefully', () => {
-      const unknownAction = { type: 'UNKNOWN_ACTION' };
-
-      // Auth reducer should return current state for unknown actions
-      const result = reducers.auth(initialAuthState, unknownAction);
-      expect(result).toBe(initialAuthState);
-    });
+    expect(cartInit).toEqual(initialCartState);
+    expect(productsInit).toEqual(initialProductsState);
   });
 
-  describe('type safety', () => {
-    it('should enforce correct state shape', () => {
-      // This test verifies TypeScript compilation
-      const testReducers: ActionReducerMap<AppState> = reducers;
+  it('no-op action leaves slice state unchanged', () => {
+    const noop: Action = { type: '[Test] Noop' };
 
-      expect(testReducers).toBeDefined();
-      expect(testReducers.auth).toBeDefined();
-    });
+    const cartNext = reducers.cart(initialCartState, noop);
+    const productsNext = reducers.products(initialProductsState, noop);
 
-    it('should maintain reducer function signatures', () => {
-      // Verify each reducer has correct function signature
-      expect(typeof reducers.auth).toBe('function');
-      // NgRx reducers created with createReducer may have different signatures
-      expect(reducers.auth.length).toBeGreaterThanOrEqual(0);
+    expect(cartNext).toBe(initialCartState);
+    expect(productsNext).toBe(initialProductsState);
+  });
+
+  it('can compose an AppState from slice initial states (type sanity)', () => {
+    const state: AppState = {
+      cart: initialCartState,
+      products: initialProductsState,
+    };
+    expect(state).toMatchObject({
+      cart: initialCartState,
+      products: initialProductsState,
     });
   });
 });

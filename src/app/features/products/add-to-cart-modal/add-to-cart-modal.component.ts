@@ -7,18 +7,18 @@ import { Product } from '@infrastructure/models';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './add-to-cart-modal.component.html',
-  styleUrl: './add-to-cart-modal.component.scss'
+  styleUrl: './add-to-cart-modal.component.scss',
 })
 export class AddToCartModalComponent {
   @Input() product!: Product;
-  @Output() close = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>();
 
   onClose() {
-    this.close.emit();
+    this.closeModal.emit();
   }
 
   onViewCart() {
     // TODO: Navigate to cart page when implemented
-    this.close.emit();
+    this.closeModal.emit();
   }
 }
