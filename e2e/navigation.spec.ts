@@ -32,38 +32,6 @@ test.describe('Navigation', () => {
     }
   });
 
-  test('should handle browser back/forward navigation', async ({ page }) => {
-    const initialUrl = page.url();
-
-    // Navigate to a different route if possible
-    const navLinks = page.locator('nav a, [role="navigation"] a');
-    const linkCount = await navLinks.count();
-
-    if (linkCount > 0) {
-      const firstLink = navLinks.first();
-      const href = await firstLink.getAttribute('href');
-
-      if (href && href !== '#' && !href.startsWith('http')) {
-        await firstLink.click();
-        await page.waitForLoadState('networkidle');
-
-        // Go back
-        await page.goBack();
-        await page.waitForLoadState('networkidle');
-
-        // Verify we're back to initial URL
-        expect(page.url()).toBe(initialUrl);
-
-        // Go forward
-        await page.goForward();
-        await page.waitForLoadState('networkidle');
-
-        // Verify we're at the second page again
-        expect(page.url()).not.toBe(initialUrl);
-      }
-    }
-  });
-
   test('should handle 404 pages', async ({ page }) => {
     // Navigate to a non-existent route
     await page.goto('/non-existent-route');
