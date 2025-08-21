@@ -1,4 +1,3 @@
-// resource.service.spec.ts
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import {
@@ -7,11 +6,8 @@ import {
   RequestOptions,
 } from './resource.abstract';
 
-// ---- Stable HttpClient.request mock wired via mocked Angular inject ----
 const httpRequestMock = jest.fn();
 
-// Mock Angular's inject() ONCE at module load so the base class field initializer
-// `protected readonly http = inject(HttpClient)` uses our mock (no TestBed needed).
 jest.mock('@angular/core', () => {
   const actual = jest.requireActual('@angular/core');
   return {
@@ -23,19 +19,16 @@ jest.mock('@angular/core', () => {
   };
 });
 
-// Mock environment to exercise stripTrailingSlash
 jest.mock('../../../environments/environment', () => ({
   environment: { apiUrl: 'https://api.example.com/' },
 }));
 
 describe('ResourceService', () => {
-  // Test subclass to expose protected helpers as public methods
   class TestService extends ResourceService<{ id: number }> {
     constructor(commonHeaders?: Record<string, string>) {
       super('/things/', commonHeaders);
     }
     public buildUrl(...segments: (string | number)[]) {
-      // call protected url()
       return this.url(...segments);
     }
     public callRequest<T>(
@@ -43,7 +36,6 @@ describe('ResourceService', () => {
       url: string,
       options: RequestOptions,
     ) {
-      // call protected request()
       return this.request<T>(method, url, options);
     }
   }
@@ -115,9 +107,9 @@ describe('ResourceService', () => {
     const options = httpRequestMock.mock.calls[0][2] as {
       headers?: HttpHeaders;
     };
-    expect(options.headers?.get('X-Common')).toBe('two'); // request overrides common
-    expect(options.headers?.get('X-Also')).toBe('base'); // preserved from common
-    expect(options.headers?.get('X-Req')).toBe('three'); // added from request
+    expect(options.headers?.get('X-Common')).toBe('two');
+    expect(options.headers?.get('X-Also')).toBe('base');
+    expect(options.headers?.get('X-Req')).toBe('three');
   });
 
   it('list() calls GET without body', () => {
