@@ -1,7 +1,3 @@
-Here’s the README with an updated “What this demonstrates” section that explicitly calls out the developer tooling (Husky, Commitlint, lint-staged, etc.):
-
----
-
 # Angular 20 E-commerce Sample
 
 This repository is **my implementation of a take-home assignment provided by the hiring team**. It’s a small, feature-complete e-commerce app built with **Angular 20** and **NgRx 20**, showcasing practical patterns for state management, standalone components, signals, and modern tooling.
