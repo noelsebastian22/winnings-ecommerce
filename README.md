@@ -115,6 +115,10 @@ npm run format:fix       # Prettier
   <img src="docs/screenshots/03-add-to-cart-modal.png" width="800" alt="Add to cart modal" />
 </p>
 
+<p align="center">
+  <img src="docs/screenshots/04-mobile-products.png" width="320" alt="Mobile view" />
+</p>
+
 ---
 
 ## 📂 Structure
