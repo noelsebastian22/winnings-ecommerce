@@ -1,0 +1,36 @@
+<div class="product-list-container">
+  <header class="page-header">
+    <h1>Our Products</h1>
+    <p>Discover our amazing collection of products</p>
+  </header>
+
+  @if (products().length > 0) {
+    <div class="products-grid">
+      @for (product of products(); track product.sku) {
+        @defer (on viewport) {
+          <app-product-card
+            [product]="product"
+            (addToCart)="onAddToCart($event)"
+          >
+          </app-product-card>
+        } @placeholder {
+          <div class="product-placeholder">
+            <div class="placeholder-image"></div>
+            <div class="placeholder-content">
+              <div class="placeholder-line"></div>
+              <div class="placeholder-line short"></div>
+              <div class="placeholder-price"></div>
+            </div>
+          </div>
+        } @loading {
+          <div class="product-loading">Loading product...</div>
+        }
+      }
+    </div>
+  } @else {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading products...</p>
+    </div>
+  }
+</div>

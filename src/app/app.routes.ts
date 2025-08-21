@@ -7,11 +7,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/home/home.component').then((m) => m.HomeComponent),
   },
-  // {
-  //   path: 'products',
-  //   loadComponent: () =>
-  //     import('./features/products/product-list/product-list.component').then(
-  //       (m) => m.ProductListComponent,
-  //     ),
-  // },
+  {
+    path: 'products',
+    loadComponent: () =>
+      import('./features/products/product-list/product-list.component').then(
+        (m) => m.ProductListComponent,
+      ),
+  },
 ];
