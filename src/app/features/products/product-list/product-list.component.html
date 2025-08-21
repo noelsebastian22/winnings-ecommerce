@@ -4,33 +4,43 @@
     <p>Discover our amazing collection of products</p>
   </header>
 
-  @if (products().length > 0) {
-    <div class="products-grid">
-      @for (product of products(); track product.sku) {
-        @defer (on viewport) {
-          <app-product-card
-            [product]="product"
-            (addToCart)="onAddToCart($event)"
-          >
-          </app-product-card>
-        } @placeholder {
-          <div class="product-placeholder">
-            <div class="placeholder-image"></div>
-            <div class="placeholder-content">
-              <div class="placeholder-line"></div>
-              <div class="placeholder-line short"></div>
-              <div class="placeholder-price"></div>
-            </div>
-          </div>
-        } @loading {
-          <div class="product-loading">Loading product...</div>
-        }
-      }
-    </div>
-  } @else {
+  <!-- Loading State -->
+  @if (loading$ | async) {
     <div class="loading">
       <div class="spinner"></div>
       <p>Loading products...</p>
     </div>
+  }
+
+  <!-- Products Grid -->
+  @if (products$ | async; as products) {
+    @if (products.length > 0 && !(loading$ | async)) {
+      <div class="products-grid">
+        @for (product of products; track product.sku) {
+          @defer (on viewport) {
+            <app-product-card
+              [product]="product"
+              (addToCart)="onAddToCart($event)"
+            >
+            </app-product-card>
+          } @placeholder {
+            <div class="product-placeholder">
+              <div class="placeholder-image"></div>
+              <div class="placeholder-content">
+                <div class="placeholder-line"></div>
+                <div class="placeholder-line short"></div>
+                <div class="placeholder-price"></div>
+              </div>
+            </div>
+          } @loading {
+            <div class="product-loading">Loading product...</div>
+          }
+        }
+      </div>
+    } @else if (products.length === 0 && !(loading$ | async)) {
+      <div class="no-products">
+        <p>No products found.</p>
+      </div>
+    }
   }
 </div>

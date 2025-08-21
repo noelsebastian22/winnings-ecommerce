@@ -12,7 +12,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.state';
 import { AddToCartModalComponent } from '../add-to-cart-modal/add-to-cart-modal.component';
 import { Product } from '@infrastructure/models';
-import { addToCart } from '@core/state/cart/cart.actions';
 
 @Component({
   selector: 'app-product-card',
@@ -31,8 +30,8 @@ export class ProductCardComponent {
 
   discount = computed(() => this.product.rrp - this.product.price);
 
-  handleAddToCart() {
-    this.store.dispatch(addToCart({ product: this.product }));
+  handleAddToCart(product: Product) {
+    this.addToCart.emit(product);
     this.showModal.set(true);
   }
 

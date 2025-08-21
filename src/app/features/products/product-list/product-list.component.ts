@@ -1,25 +1,32 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../../shared/services/product.service';
+import { ProductsFacade } from '@core/state/products';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { Product } from '@infrastructure/models';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/store';
+import { addToCart } from '@core/state/cart/cart.actions';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [CommonModule, ProductCardComponent],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss'
+  styleUrl: './product-list.component.scss',
 })
-export class ProductListComponent {
-  // Inject dependencies using the new inject() function
-  private productService = inject(ProductService);
+export class ProductListComponent implements OnInit {
+  private productsFacade = inject(ProductsFacade);
+  private store = inject(Store<AppState>);
 
-  // Initialize products signal
-  products = this.productService.products;
+  // Use observables from the facade
+  products$ = this.productsFacade.filteredProducts$;
+  loading$ = this.productsFacade.loading$;
+
+  ngOnInit() {
+    this.productsFacade.loadProducts();
+  }
 
   onAddToCart(product: Product) {
-    // This will be handled by the product card component
-    // which will dispatch the action and show the modal
+    this.store.dispatch(addToCart({ product: product }));
   }
 }

@@ -17,6 +17,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from '@core/http/interceptors/error.interceptor';
 import { loadingInterceptor } from '@core/http/interceptors/loading.interceptor';
 import { GlobalErrorHandler } from '@core/errors/global-error.handler';
+import { ProductsEffects } from '@core/state/products';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     provideRouter(routes),
     provideStore(reducers, { metaReducers }),
-    provideEffects([]),
+    provideEffects([ProductsEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
