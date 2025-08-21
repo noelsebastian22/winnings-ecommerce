@@ -1,4 +1,3 @@
-// header.component.spec.ts
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';

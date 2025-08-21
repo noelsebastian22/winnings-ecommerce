@@ -44,7 +44,6 @@ describe('AppConfig', () => {
   });
 
   it('should include all required providers', () => {
-    // Test that all services can be injected, proving providers are configured
     const router = TestBed.inject(Router);
     const store = TestBed.inject(Store);
     const httpClient = TestBed.inject(HttpClient);
@@ -73,7 +72,6 @@ describe('AppConfig', () => {
   });
 
   it('should have correct provider count', () => {
-    // Verify we have the expected number of providers
     expect(appConfig.providers.length).toBe(8);
   });
 

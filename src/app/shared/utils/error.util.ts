@@ -7,7 +7,6 @@ export function extractErrorMessage(error: unknown): string {
     return error.message;
   }
 
-  // Handle errors like HttpErrorResponse with an "error" field that's a string
   if (typeof error === 'object' && error !== null) {
     const maybeError = error as { error?: unknown };
     if (typeof maybeError.error === 'string') {

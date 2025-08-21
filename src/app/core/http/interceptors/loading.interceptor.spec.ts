@@ -146,7 +146,6 @@ describe('LoadingInterceptor', () => {
       subscription.unsubscribe();
       expect(loadingService.stop).toHaveBeenCalledTimes(1);
 
-      // Clean up any pending requests
       httpMock.expectOne(testUrl);
     });
   });

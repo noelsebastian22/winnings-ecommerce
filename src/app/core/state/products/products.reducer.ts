@@ -5,7 +5,6 @@ import { initialProductsState } from './products.state';
 export const productsReducer = createReducer(
   initialProductsState,
 
-  // Load Products
   on(ProductsActions.loadProducts, (state) => ({
     ...state,
     loading: true,

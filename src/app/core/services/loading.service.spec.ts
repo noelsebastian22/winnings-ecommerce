@@ -35,7 +35,6 @@ describe('LoadingService', () => {
     });
 
     it('should increment internal counter for concurrent requests', () => {
-      // Start multiple requests
       service.start();
       service.start();
       service.start();

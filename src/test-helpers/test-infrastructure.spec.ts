@@ -83,7 +83,6 @@ describe('Test Infrastructure', () => {
     });
 
     it('should configure service test bed', () => {
-      // This test verifies that configureServiceTestBed doesn't throw errors
       expect(true).toBe(true);
     });
   });

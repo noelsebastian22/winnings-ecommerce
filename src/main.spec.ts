@@ -1,4 +1,3 @@
-// Mock console.error to test error handling
 const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
   // Mock implementation
 });

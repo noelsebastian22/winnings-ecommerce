@@ -13,7 +13,9 @@
       <div class="cart-icon">
         🛒
         @if (cartItemCount() && cartItemCount()! > 0) {
-          <span class="cart-count">{{ cartItemCount() }}</span>
+          <span data-testid="cart-count" class="cart-count">{{
+            cartItemCount()
+          }}</span>
         }
       </div>
     </div>

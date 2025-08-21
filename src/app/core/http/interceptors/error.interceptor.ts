@@ -9,7 +9,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((err: unknown) => {
-      // Optional opt-out flag per request
       const skip = req.headers.get('X-Skip-Error-Notify');
       if (!skip) {
         notify.show(err);

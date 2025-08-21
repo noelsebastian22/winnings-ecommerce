@@ -30,10 +30,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 
 function isProd(): boolean {
   try {
-    // Lazy import to avoid circulars; adjust path as needed
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // const { environment } = require('../../../environments/environment');
     return !!environment.production;
   } catch {
     return false;

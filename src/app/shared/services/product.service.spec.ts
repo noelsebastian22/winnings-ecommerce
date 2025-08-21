@@ -30,7 +30,7 @@ describe('ProductService', () => {
     httpRequestMock.mockReturnValue(of<Product[]>([]));
     const svc = new ProductService();
 
-    svc.getProducts().subscribe(); // trigger call
+    svc.getProducts().subscribe();
 
     const [method, url, options] = httpRequestMock.mock.calls[0] as [
       string,

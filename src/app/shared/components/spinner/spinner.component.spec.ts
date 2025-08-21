@@ -166,15 +166,12 @@ describe('SpinnerComponent', () => {
 
   describe('Change Detection', () => {
     it('should update template when loading state changes', () => {
-      // Initially not loading
       expect(fixture.debugElement.query(By.css('.fixed'))).toBeFalsy();
 
-      // Start loading
       loadingService.start();
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('.fixed'))).toBeTruthy();
 
-      // Stop loading
       loadingService.stop();
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('.fixed'))).toBeFalsy();
@@ -225,7 +222,6 @@ describe('SpinnerComponent', () => {
 
   describe('Integration with LoadingService', () => {
     it('should reflect LoadingService state accurately', () => {
-      // Test direct correlation with service state
       expect(component.isLoading()).toBe(loadingService.isLoading());
 
       loadingService.start();
@@ -247,8 +243,7 @@ describe('SpinnerComponent', () => {
     });
 
     it('should handle edge case of stopping when not started', () => {
-      // Ensure component handles service edge cases gracefully
-      loadingService.stop(); // Stop when not started
+      loadingService.stop();
       expect(component.isLoading()).toBe(false);
 
       fixture.detectChanges();
@@ -291,7 +286,6 @@ describe('SpinnerComponent', () => {
       const loadingBox = fixture.debugElement.query(By.css('.bg-white'));
       const classList = Array.from(loadingBox.nativeElement.classList);
 
-      // Should have rounded corners, padding, shadow, and white background
       expect(classList).toContain('rounded-xl');
       expect(classList).toContain('p-4');
       expect(classList).toContain('shadow');
@@ -305,7 +299,6 @@ describe('SpinnerComponent', () => {
       fixture.detectChanges();
       expect(component.isLoading()).toBe(true);
 
-      // Destroy component
       fixture.destroy();
 
       // Service should still work independently
