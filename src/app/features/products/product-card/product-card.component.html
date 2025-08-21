@@ -1,0 +1,31 @@
+<div class="product-card">
+  <div class="product-image">
+    <img [src]="product.image" [alt]="product.name" />
+  </div>
+
+  <div class="product-info">
+    <h3 class="product-name">{{ product.name }}</h3>
+
+    <div class="price-section">
+      <div class="current-price">${{ product.price | number: "1.0-0" }}</div>
+      @if (discount() > 0) {
+        <div class="original-price">${{ product.rrp | number: "1.0-0" }}</div>
+        <div class="discount">
+          ${{ discount() }} off RRP of ${{ product.rrp | number: "1.0-0" }}
+        </div>
+      }
+    </div>
+
+    <div class="action-buttons">
+      <button class="add-to-cart-btn" (click)="handleAddToCart()">
+        Add to Cart
+      </button>
+      <button class="compare-btn">Compare</button>
+    </div>
+  </div>
+</div>
+
+@if (showModal()) {
+  <app-add-to-cart-modal [product]="product" (close)="closeModal()">
+  </app-add-to-cart-modal>
+}

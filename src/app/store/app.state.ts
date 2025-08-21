@@ -1,3 +1,5 @@
+import { CartState } from '@core/state/cart/cart.reducer';
+
 export interface AppState {
-  // Add feature state slices here (e.g., auth: AuthState)
+  cart: CartState;
 }

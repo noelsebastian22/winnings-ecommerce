@@ -1,11 +1,16 @@
 export interface Product {
-    sku: string;
-    name: string;
-    price: number;
-    rrp: number;
-    image: string;
+  sku: string;
+  name: string;
+  price: number;
+  rrp: number;
+  image: string;
 }
 
 export interface ProductsResponse {
-    products: Product[];
+  products: Product[];
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
 }
