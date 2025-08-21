@@ -89,6 +89,22 @@ npm run format:fix       # Prettier
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/01-home.png" width="800" alt="Home page" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/02-products.png" width="800" alt="Products list" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/03-add-to-cart-modal.png" width="800" alt="Add to cart modal" />
+</p>
+
+---
+
 ## 📂 Structure
 
 ```
