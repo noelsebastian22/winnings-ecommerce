@@ -56,4 +56,10 @@ describe('ProductCardComponent', () => {
     expect(component.showModal()).toBe(true);
     expect(domHelper.elementExists('app-add-to-cart-modal')).toBe(true);
   });
+
+  it('should close modal when close button is clicked', () => {
+    component.showModal.set(true);
+    component.closeModal();
+    expect(component.showModal()).toBe(false);
+  });
 });
