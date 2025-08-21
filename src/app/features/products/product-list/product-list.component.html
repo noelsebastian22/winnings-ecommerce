@@ -14,7 +14,7 @@
 
   <!-- Products Grid -->
   @if (products$ | async; as products) {
-    @if (products.length > 0 && !(loading$ | async)) {
+    @if (products.length > 0 && (loading$ | async) === false) {
       <div class="products-grid">
         @for (product of products; track product.sku) {
           @defer (on viewport) {
@@ -37,7 +37,7 @@
           }
         }
       </div>
-    } @else if (products.length === 0 && !(loading$ | async)) {
+    } @else if (products.length === 0 && (loading$ | async) === false) {
       <div class="no-products">
         <p>No products found.</p>
       </div>

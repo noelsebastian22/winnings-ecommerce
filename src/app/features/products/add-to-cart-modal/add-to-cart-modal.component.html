@@ -1,8 +1,23 @@
-<div class="modal-overlay" (click)="onClose()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
+<div
+  class="modal-overlay"
+  tabindex="0"
+  role="button"
+  aria-label="Close modal"
+  (click)="onClose()"
+  (keyup.enter)="onClose()"
+  (keyup.space)="onClose()"
+>
+  <div
+    class="modal-content"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="addedToCartTitle"
+  >
     <div class="modal-header">
-      <h2>Added to Cart!</h2>
-      <button class="close-btn" (click)="onClose()">&times;</button>
+      <h2 id="addedToCartTitle">Added to Cart!</h2>
+      <button class="close-btn" type="button" (click)="onClose()">
+        &times;
+      </button>
     </div>
 
     <div class="modal-body">
@@ -20,10 +35,12 @@
     </div>
 
     <div class="modal-footer">
-      <button class="continue-btn" (click)="onClose()">
+      <button class="continue-btn" type="button" (click)="onClose()">
         Continue Shopping
       </button>
-      <button class="view-cart-btn" (click)="onViewCart()">View Cart</button>
+      <button class="view-cart-btn" type="button" (click)="onViewCart()">
+        View Cart
+      </button>
     </div>
   </div>
 </div>
