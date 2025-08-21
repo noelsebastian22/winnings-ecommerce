@@ -56,12 +56,24 @@ This repository is **my implementation of a take-home assignment provided by the
 
 ---
 
+## Environment setup
+
+Create `src/environments/environment.ts`:
+
+````ts
+export const environment = {
+  production: false,
+  apiUrl: '/',
+};
+
+---
+
 ## 🚀 Run it locally
 
 ```bash
 npm install
 npm run start
-```
+````
 
 - Dev server: **[http://localhost:4200/](http://localhost:4200/)**
 - Sample catalog: **`public/products.json`**
