@@ -30,20 +30,6 @@ export async function waitForAngular(page: Page): Promise<void> {
 }
 
 /**
- * Fill a form field by label text
- */
-export async function fillByLabel(
-  page: Page,
-  labelText: string,
-  value: string,
-): Promise<void> {
-  const field = page.locator(
-    `label:has-text("${labelText}") + input, label:has-text("${labelText}") input`,
-  );
-  await field.fill(value);
-}
-
-/**
  * Click a button by text content
  */
 export async function clickButtonByText(

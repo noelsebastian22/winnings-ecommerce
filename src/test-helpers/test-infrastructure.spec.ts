@@ -1,7 +1,4 @@
 import {
-  createMockUser,
-  createMockAuthState,
-  createMockMovieResult,
   createMockEnvironment,
   mockStoreProviders,
   AsyncTestHelper,
@@ -15,43 +12,6 @@ import {
  */
 describe('Test Infrastructure', () => {
   describe('Test Data Factories', () => {
-    it('should create mock user with default values', () => {
-      const user = createMockUser();
-
-      expect(user).toEqual({
-        id: '1',
-        name: 'Test User',
-      });
-    });
-
-    it('should create mock user with overrides', () => {
-      const user = createMockUser({ name: 'Custom User', id: '123' });
-
-      expect(user).toEqual({
-        id: '123',
-        name: 'Custom User',
-      });
-    });
-
-    it('should create mock auth state', () => {
-      const authState = createMockAuthState();
-
-      expect(authState).toEqual({
-        user: null,
-        loading: false,
-        error: null,
-      });
-    });
-
-    it('should create mock movie result', () => {
-      const movie = createMockMovieResult();
-
-      expect(movie).toHaveProperty('id');
-      expect(movie).toHaveProperty('title');
-      expect(movie).toHaveProperty('overview');
-      expect(movie.title).toBe('Test Movie');
-    });
-
     it('should create mock environment', () => {
       const env = createMockEnvironment();
 

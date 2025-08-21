@@ -7,11 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Observable } from 'rxjs';
 import { defaultMockState } from './mock-providers';
 
-/**
- * Test configuration utilities for consistent test setup
- * Following Requirements 8.3 and 8.4 for proper mocking and test isolation
- */
-
 // Common testing modules that are frequently needed
 export const COMMON_TESTING_MODULES = [ReactiveFormsModule, FormsModule];
 

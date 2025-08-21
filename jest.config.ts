@@ -27,6 +27,7 @@ const config: Config = {
     '!src/**/*.d.ts',
     '!src/main.ts',
     '!src/**/index.ts',
+    '!src/**/models/**',
     '!src/test-helpers/**/*.ts',
     '!src/environments/environment.prod.ts',
   ],
@@ -187,7 +188,12 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: ['/node_modules/', '/e2e/', 'index\\.ts$'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/e2e/',
+    'index\\.ts$',
+    '\\.model\\.ts$',
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

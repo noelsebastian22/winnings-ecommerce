@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import {
-  createMockAuthState,
+  createMockCartState,
   createMockEnvironment,
 } from './test-data-factories';
 
@@ -15,7 +15,7 @@ import {
 
 // Default mock store state
 export const defaultMockState = {
-  auth: createMockAuthState(),
+  cart: createMockCartState(),
 };
 
 // Mock store providers
@@ -79,18 +79,6 @@ export const createMockLoadingService = () => ({
 export const createMockErrorNotificationService = () => ({
   showError: jest.fn(),
   clearError: jest.fn(),
-});
-
-export const createMockAuthService = () => ({
-  login: jest.fn(),
-  logout: jest.fn(),
-  getCurrentUser: jest.fn(),
-});
-
-export const createMockTmdbService = () => ({
-  getPopularMovies: jest.fn(),
-  getMovie: jest.fn(),
-  searchMovies: jest.fn(),
 });
 
 // HTTP interceptor testing utilities
