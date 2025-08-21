@@ -18,7 +18,6 @@ export class ProductListComponent implements OnInit {
   private productsFacade = inject(ProductsFacade);
   private store = inject(Store<AppState>);
 
-  // Use observables from the facade
   products$ = this.productsFacade.filteredProducts$;
   loading$ = this.productsFacade.loading$;
 

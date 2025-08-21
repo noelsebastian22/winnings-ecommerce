@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
 
 @Component({
@@ -14,6 +14,5 @@ import { LoadingService } from '@core/services/loading.service';
 })
 export class SpinnerComponent {
   private readonly loading = inject(LoadingService);
-  // computed() so template change-detects efficiently
-  isLoading = computed(() => this.loading.isLoading());
+  isLoading = this.loading.isLoading;
 }
