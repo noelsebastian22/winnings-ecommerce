@@ -1,18 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { LoadingService } from '@core/services/loading.service';
 
 @Component({
   selector: 'app-spinner',
   standalone: true,
-  template: `
-    @if (isLoading()) {
-      <div class="fixed inset-0 grid place-items-center bg-black/20">
-        <div class="rounded-xl p-4 shadow bg-white">Loading…</div>
-      </div>
-    }
-  `,
+  templateUrl: './spinner.component.html',
+  styleUrls: ['./spinner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent {
   private readonly loading = inject(LoadingService);
-  isLoading = this.loading.isLoading;
+  /** LoadingService exposes a Signal<boolean>, forward it directly */
+  readonly isLoading = this.loading.isLoading;
 }

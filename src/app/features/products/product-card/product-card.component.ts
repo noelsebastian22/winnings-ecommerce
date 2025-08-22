@@ -6,6 +6,7 @@ import {
   signal,
   computed,
   inject,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -19,6 +20,7 @@ import { Product } from '@infrastructure/models';
   imports: [CommonModule, AddToCartModalComponent],
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardComponent {
   @Input() product!: Product;

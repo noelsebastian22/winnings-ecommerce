@@ -1,0 +1,72 @@
+/* Overlay that covers the entire viewport */
+.spinner-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100; /* above header/router views */
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(1px);
+}
+
+/* Card behind the spinner */
+.spinner-card {
+  background: #fff;
+  color: #222;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 160px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+  gap: 10px;
+}
+
+/* The spinner circle */
+.spinner {
+  --size: 44px;
+  --track: rgba(0, 0, 0, 0.12);
+  --color: var(
+    --brand,
+    #2f6feb
+  ); /* override --brand in global styles if you like */
+
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  border: 4px solid var(--track);
+  border-top-color: var(--color);
+  animation: spinner-rotate 0.9s linear infinite;
+}
+
+.spinner-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-top-color: var(--track);
+  }
+}
+
+/* Dark mode tweaks */
+@media (prefers-color-scheme: dark) {
+  .spinner-card {
+    background: #111418;
+    color: #e7e7e7;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  .spinner {
+    --track: rgba(255, 255, 255, 0.15);
+  }
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
