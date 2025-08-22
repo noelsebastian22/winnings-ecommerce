@@ -7,7 +7,7 @@ import { HeaderComponent } from './shared/components/header/header.component';
   selector: 'app-root',
   imports: [RouterOutlet, SpinnerComponent, HeaderComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrls: ['./app.scss'],
 })
 export class App {
   protected title = 'angular-starter-template';

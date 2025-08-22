@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '@infrastructure/models';
 
@@ -7,7 +13,8 @@ import { Product } from '@infrastructure/models';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './add-to-cart-modal.component.html',
-  styleUrl: './add-to-cart-modal.component.scss',
+  styleUrls: ['./add-to-cart-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToCartModalComponent {
   @Input() product!: Product;
