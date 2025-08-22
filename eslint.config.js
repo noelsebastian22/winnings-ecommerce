@@ -6,12 +6,19 @@ const prettier = require("eslint-config-prettier");
 
 module.exports = tseslint.config(
   {
+    ignores: ["dist/**", "coverage/**", "playwright-report/**"],
+  },
+  {
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
+      // @ts-ignore
       ...tseslint.configs.recommended,
+      // @ts-ignore
       ...tseslint.configs.stylistic,
+      // @ts-ignore
       ...angular.configs.tsRecommended,
+      // @ts-ignore
       prettier,
     ],
     plugins: {
@@ -37,25 +44,18 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
-      // Flag unused variables and imports
+      "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
+          args: "after-used",
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
           caughtErrorsIgnorePattern: "^_",
         },
       ],
       "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
-        "error",
-        {
-          vars: "all",
-          varsIgnorePattern: "^_",
-          args: "after-used",
-          argsIgnorePattern: "^_",
-        },
-      ],
+      "unused-imports/no-unused-vars": "error",
     },
   },
   {

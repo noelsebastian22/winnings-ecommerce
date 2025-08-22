@@ -5,12 +5,9 @@ import {
   EventEmitter,
   signal,
   computed,
-  inject,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app.state';
 import { AddToCartModalComponent } from '../add-to-cart-modal/add-to-cart-modal.component';
 import { Product } from '@infrastructure/models';
 
@@ -25,8 +22,6 @@ import { Product } from '@infrastructure/models';
 export class ProductCardComponent {
   @Input() product!: Product;
   @Output() addToCart = new EventEmitter<Product>();
-
-  private store = inject(Store<AppState>);
 
   showModal = signal(false);
 
