@@ -25,6 +25,26 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+        # 👇 Create Angular environment files for the build
+      - name: Create environment files
+        run: |
+          set -e
+          mkdir -p src/environments
+
+          cat > src/environments/environment.ts <<EOF
+          export const environment = {
+            production: false,
+            apiUrl: '/',
+          };
+          EOF
+
+          cat > src/environments/environment.prod.ts <<EOF
+          export const environment = {
+            production: true,
+            apiUrl: '${API_URL:-/}',
+          };
+          EOF
+
       - name: Build application
         run: npm run build
 
