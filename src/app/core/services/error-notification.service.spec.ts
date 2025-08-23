@@ -4,7 +4,7 @@ import { ErrorNotificationService } from './error-notification.service';
 
 describe('ErrorNotificationService', () => {
   let service: ErrorNotificationService;
-  let consoleSpy: jasmine.Spy;
+  let consoleSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -277,7 +277,7 @@ describe('ErrorNotificationService', () => {
 
       it('should handle circular reference in error body', () => {
         const circularObj: Record<string, unknown> = { prop: 'value' };
-        circularObj.circular = circularObj;
+        circularObj['circular'] = circularObj;
 
         const httpError = new HttpErrorResponse({
           status: 400,

@@ -1,4 +1,5 @@
 <div
+  #overlay
   class="modal-overlay"
   tabindex="0"
   role="button"
@@ -6,6 +7,7 @@
   (click)="onClose()"
   (keyup.enter)="onClose()"
   (keyup.space)="onClose()"
+  (keydown.escape)="onClose()"
 >
   <div
     class="modal-content"
