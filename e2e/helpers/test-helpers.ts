@@ -94,40 +94,6 @@ export async function mockApiResponse(
 }
 
 /**
- * Login helper for authenticated tests
- */
-export async function login(
-  page: Page,
-  username = 'test-user',
-  password = 'mock-password',
-): Promise<void> {
-  await page.goto('/auth');
-
-  const usernameField = page
-    .locator('input[name="username"], input[type="text"]')
-    .first();
-  const passwordField = page
-    .locator('input[name="password"], input[type="password"]')
-    .first();
-  const submitButton = page
-    .locator('button[type="submit"], button:has-text("Login")')
-    .first();
-
-  if (
-    (await elementExists(usernameField)) &&
-    (await elementExists(passwordField))
-  ) {
-    await usernameField.fill(username);
-    await passwordField.fill(password);
-
-    if (await elementExists(submitButton)) {
-      await submitButton.click();
-      await page.waitForLoadState('networkidle');
-    }
-  }
-}
-
-/**
  * Clear browser storage
  */
 export async function clearStorage(page: Page): Promise<void> {
