@@ -19,6 +19,6 @@ export class ProductService extends ResourceService<Product> {
    * Get all products
    */
   getProducts(options?: RequestOptions): Observable<Product[]> {
-    return this.list<Product>(options).pipe(delay(2000));
+    return this.list(options).pipe(delay(2000));
   }
 }
