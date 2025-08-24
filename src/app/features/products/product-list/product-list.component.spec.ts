@@ -10,7 +10,7 @@ import { ProductsFacade } from '@core/state/products';
 import { Product } from '@infrastructure/models';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { addToCart } from '@core/state/cart/cart.actions';
+import { CartActions } from '@core/state/cart/cart.actions';
 
 jest.mock('@core/state/products', () => ({
   ProductsFacade: jest.fn(),
@@ -61,6 +61,8 @@ describe('ProductListComponent', () => {
     const dispatchSpy = jest.spyOn(store, 'dispatch');
     const product = products[0];
     component.onAddToCart(product);
-    expect(dispatchSpy).toHaveBeenCalledWith(addToCart({ product }));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      CartActions.addToCart({ product }),
+    );
   });
 });

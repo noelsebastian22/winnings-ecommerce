@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { cartReducer, initialState, CartState } from './cart.reducer';
-import * as CartActions from './cart.actions';
+import { CartActions } from './cart.actions';
 import { Product } from '@infrastructure/models';
 
 const createProduct = (overrides?: Partial<Product>): Product => ({

@@ -8,9 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ProductsFacade } from '@core/state/products';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { Product } from '@infrastructure/models';
-import { Store } from '@ngrx/store';
-import { AppState } from 'app/store';
-import { addToCart } from '@core/state/cart/cart.actions';
+import { CartFacade } from '@core/state/cart/cart.facade';
 
 @Component({
   selector: 'app-product-list',
@@ -22,7 +20,7 @@ import { addToCart } from '@core/state/cart/cart.actions';
 })
 export class ProductListComponent implements OnInit {
   private productsFacade = inject(ProductsFacade);
-  private store = inject(Store<AppState>);
+  private cartFacade = inject(CartFacade);
 
   products$ = this.productsFacade.filteredProducts$;
   loading$ = this.productsFacade.loading$;
@@ -32,6 +30,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onAddToCart(product: Product) {
-    this.store.dispatch(addToCart({ product: product }));
+    this.cartFacade.addToCart(product);
   }
 }

@@ -2,9 +2,7 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from 'app/store';
-import { selectCartTotalItems } from '@core/state/cart/cart.selectors';
+import { CartFacade } from '@core/state/cart/cart.facade';
 
 @Component({
   selector: 'app-header',
@@ -14,9 +12,9 @@ import { selectCartTotalItems } from '@core/state/cart/cart.selectors';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  private store = inject(Store<AppState>);
+  private cartFacade = inject(CartFacade);
 
-  cartItemCount = toSignal(this.store.select(selectCartTotalItems), {
+  cartItemCount = toSignal(this.cartFacade.totalItems$, {
     initialValue: 0,
   });
 }
