@@ -19,11 +19,6 @@ export class ProductService extends ResourceService<Product> {
    * Get all products
    */
   getProducts(options?: RequestOptions): Observable<Product[]> {
-    return this.request<Product[]>('GET', this.url(), {
-      ...options,
-      body: undefined,
-    }).pipe(
-      delay(2000), // Add 2 second delay to test loading spinner and NgRx state
-    );
+    return this.list<Product>(options).pipe(delay(2000));
   }
 }
