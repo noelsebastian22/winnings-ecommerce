@@ -54,6 +54,23 @@ describe('cartReducer', () => {
     expect(s2.totalPrice).toBe(20);
   });
 
+  it('addToCart: increments existing product and leaves other items unchanged', () => {
+    const pA = createProduct({ sku: 'A', price: 10 });
+    const pB = createProduct({ sku: 'B', price: 20 });
+
+    let state: CartState = initialState;
+    state = cartReducer(state, CartActions.addToCart({ product: pA }));
+    state = cartReducer(state, CartActions.addToCart({ product: pB }));
+
+    const next = cartReducer(state, CartActions.addToCart({ product: pA }));
+
+    expect(next.items).toHaveLength(2);
+    expect(next.items.find((i) => i.product.sku === 'A')?.quantity).toBe(2);
+    expect(next.items.find((i) => i.product.sku === 'B')?.quantity).toBe(1);
+    expect(next.totalItems).toBe(3);
+    expect(next.totalPrice).toBe(40);
+  });
+
   it('removeFromCart: removes by sku and updates totals', () => {
     const pA = createProduct({ sku: 'A', price: 10 });
     const pB = createProduct({ sku: 'B', price: 20 });
