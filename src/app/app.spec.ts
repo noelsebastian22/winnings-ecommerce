@@ -1,9 +1,8 @@
-// app.component.spec.ts
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { provideRouter } from '@angular/router';
 
-import { App } from './app'; // adjust path if needed
+import { App } from './app';
 import { initialState as initialCartState } from '@core/state/cart/cart.reducer';
 import { initialProductsState } from '@core/state/products';
 
@@ -26,12 +25,5 @@ describe('App', () => {
   it('should create', () => {
     const fixture = TestBed.createComponent(App);
     expect(fixture.componentInstance).toBeTruthy();
-  });
-
-  it('should have the expected title', () => {
-    const fixture = TestBed.createComponent(App);
-    expect((fixture.componentInstance as App)['title']).toBe(
-      'angular-starter-template',
-    );
   });
 });

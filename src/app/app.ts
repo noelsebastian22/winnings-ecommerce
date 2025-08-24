@@ -9,6 +9,4 @@ import { HeaderComponent } from './shared/components/header/header.component';
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
-export class App {
-  protected title = 'angular-starter-template';
-}
+export class App {}

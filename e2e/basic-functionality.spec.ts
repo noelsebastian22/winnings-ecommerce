@@ -8,7 +8,7 @@ test.describe('Basic Functionality', () => {
     await expect(page.locator('body')).toBeVisible();
 
     // Check the title
-    await expect(page).toHaveTitle(/AngularStarterTemplate/);
+    await expect(page).toHaveTitle(/Winnings ecommerce/);
   });
 
   test('should have no console errors on load', async ({ page }) => {

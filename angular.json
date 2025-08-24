@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-starter-template": {
+    "winnings-ecommerce": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-starter-template:build:production"
+              "buildTarget": "winnings-ecommerce:build:production"
             },
             "development": {
-              "buildTarget": "angular-starter-template:build:development"
+              "buildTarget": "winnings-ecommerce:build:development"
             }
           },
           "defaultConfiguration": "development"

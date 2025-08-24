@@ -4,7 +4,7 @@ test.describe('App Component', () => {
   test('should display welcome message', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page).toHaveTitle(/AngularStarterTemplate/);
+    await expect(page).toHaveTitle(/Winnings ecommerce/);
   });
 
   test('should navigate to different routes', async ({ page }) => {
