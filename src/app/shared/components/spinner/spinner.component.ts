@@ -9,7 +9,7 @@ import { LoadingService } from '@core/services/loading.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent {
-  private readonly loading = inject(LoadingService);
+  private readonly loadingService = inject(LoadingService);
   /** LoadingService exposes a Signal<boolean>, forward it directly */
-  readonly isLoading = this.loading.isLoading;
+  readonly isLoading = this.loadingService.isLoading;
 }
