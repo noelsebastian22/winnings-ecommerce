@@ -10,6 +10,5 @@ import { LoadingService } from '@core/services/loading.service';
 })
 export class SpinnerComponent {
   private readonly loadingService = inject(LoadingService);
-  /** LoadingService exposes a Signal<boolean>, forward it directly */
   readonly isLoading = this.loadingService.isLoading;
 }
