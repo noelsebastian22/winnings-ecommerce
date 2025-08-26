@@ -17,7 +17,6 @@ describe('Test Infrastructure', () => {
 
       expect(env).toHaveProperty('production', false);
       expect(env).toHaveProperty('apiUrl');
-      expect(env).toHaveProperty('tmdbApiToken');
     });
   });
 

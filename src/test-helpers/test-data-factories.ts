@@ -49,8 +49,6 @@ export const createMockUnknownError = (): unknown => ({
 export const createMockEnvironment = (overrides?: Record<string, unknown>) => ({
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  tmdbApiToken: 'test-tmdb-token',
-  tmdbApiUrl: 'https://api.themoviedb.org/3',
   ...overrides,
 });
 

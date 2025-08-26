@@ -14,8 +14,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { reducers } from './store';
 import { metaReducers } from './store';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { errorInterceptor } from '@core/http/interceptors/error.interceptor';
-import { loadingInterceptor } from '@core/http/interceptors/loading.interceptor';
+import { errorInterceptor, loadingInterceptor } from '@core/http/interceptors';
 import { GlobalErrorHandler } from '@core/errors/global-error.handler';
 import { ProductsEffects } from '@core/state/products';
 

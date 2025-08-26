@@ -14,7 +14,7 @@ jest.mock('@angular/core', () => {
   };
 });
 
-jest.mock('../../../environments/environment', () => ({
+jest.mock('@environments/environment', () => ({
   environment: { apiUrl: 'https://api.example.com/' },
 }));
 
