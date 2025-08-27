@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { GlobalErrorHandler } from './global-error.handler';
 import { ErrorNotificationService } from '../services/error-notification.service';
 import { environment } from '@environments/environment';
+import { commonExpectations } from '@test-helpers/test-config';
 
 jest.mock('@environments/environment', () => ({
   environment: {
@@ -54,7 +55,7 @@ describe('GlobalErrorHandler', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    commonExpectations.serviceCreated(service);
   });
 
   describe('handleError', () => {
