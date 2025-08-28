@@ -1,9 +1,10 @@
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection,
   isDevMode,
   ErrorHandler,
+  provideZonelessChangeDetection,
+  provideCheckNoChangesConfig,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -21,7 +22,8 @@ import { ProductsEffects } from '@core/state/products';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
+    provideCheckNoChangesConfig({ exhaustive: true, interval: 1000 }),
     provideHttpClient(withInterceptors([loadingInterceptor, errorInterceptor])),
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     provideRouter(routes),

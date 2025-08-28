@@ -72,8 +72,8 @@ describe('main.ts', () => {
       expect(appConfig.providers.length).toBeGreaterThan(0);
     });
 
-    it('should have exactly 8 providers configured', () => {
-      expect(appConfig.providers.length).toBe(8);
+    it('should have exactly 9 providers configured', () => {
+      expect(appConfig.providers.length).toBe(9);
     });
 
     it('should have all providers defined and not null', () => {
@@ -103,7 +103,7 @@ describe('main.ts', () => {
     });
 
     it('should have providers with correct structure', () => {
-      appConfig.providers.forEach((provider: unknown, _index: number) => {
+      appConfig.providers.forEach((provider: unknown) => {
         expect(['function', 'object'].includes(typeof provider)).toBe(true);
         if (typeof provider === 'object') {
           expect(provider).not.toBeNull();
@@ -181,7 +181,7 @@ describe('main.ts', () => {
         expect(provider).toBeDefined();
         expect(provider).not.toBeNull();
       });
-      expect(appConfig.providers.length).toBe(8);
+      expect(appConfig.providers.length).toBe(9);
     });
 
     it('should have providers that are not null or undefined', () => {
@@ -313,7 +313,7 @@ describe('main.ts', () => {
     });
 
     it('should verify all providers are properly configured', () => {
-      expect(appConfig.providers).toHaveLength(8);
+      expect(appConfig.providers).toHaveLength(9);
 
       appConfig.providers.forEach((provider: unknown) => {
         expect(provider).toBeDefined();
@@ -322,7 +322,7 @@ describe('main.ts', () => {
     });
 
     it('should have providers that support Angular dependency injection', () => {
-      appConfig.providers.forEach((provider: unknown, _index: number) => {
+      appConfig.providers.forEach((provider: unknown) => {
         expect(provider).toBeDefined();
         expect(provider).not.toBeNull();
 
@@ -331,7 +331,7 @@ describe('main.ts', () => {
     });
 
     it('should include the expected number of providers from app.config.ts', () => {
-      expect(appConfig.providers).toHaveLength(8);
+      expect(appConfig.providers).toHaveLength(9);
     });
 
     it('should have at least one provider with provide/useClass structure', () => {

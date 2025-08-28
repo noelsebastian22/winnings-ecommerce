@@ -40,7 +40,7 @@ describe('AppConfig', () => {
   it('should configure providers array', () => {
     expect(appConfig.providers).toBeDefined();
     expect(Array.isArray(appConfig.providers)).toBe(true);
-    expect(appConfig.providers.length).toBe(8);
+    expect(appConfig.providers.length).toBe(9);
   });
 
   it('should include all required providers', () => {
@@ -72,7 +72,7 @@ describe('AppConfig', () => {
   });
 
   it('should have correct provider count', () => {
-    expect(appConfig.providers.length).toBe(8);
+    expect(appConfig.providers.length).toBe(9);
   });
 
   it('should be a valid ApplicationConfig', () => {
